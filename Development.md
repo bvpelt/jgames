@@ -38,7 +38,6 @@ Create an index.html file to define the canvas and link to your CSS and JavaScri
 Create a style.css file to define the style properties of your canvas and any other elements.
 
 ```css
-
 body, html {
     margin: 0;
     padding: 0;
