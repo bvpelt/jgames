@@ -33,7 +33,7 @@ class Enemy {
         if (this.x + this.width < 0) this.x = canvas.width;
         // animate sprite
         if (gameFrame % this.flapSpeed === 0) {
-            this.frame > 4 ? this.frame = 0 : this.frame++;
+            this.frame > 5 ? this.frame = 0 : this.frame++;
         }
     }
 
