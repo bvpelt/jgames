@@ -3,31 +3,74 @@
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 
-const CANVAS_WIDTH = canvas.width = 800;
+const CANVAS_WIDTH = canvas.width = 500;
 const CANVAS_HEIGHT = canvas.height = 700;
+const canvasPosition = canvas.getBoundingClientRect();
 
-console.log("Circle collision detection");
+const explosions = [];
 
-var circle1 = { x: 5, y: 10, radius: 300 };
-var circle2 = { x: 500, y: 500, radius: 150 };
+class Explosion {
+    constructor(x, y) {
+        this.spriteWidth = 200;
+        this.spriteHeight = 179;
+        this.width = this.spriteWidth * 0.7;
+        this.height = this.spriteHeight * 0.7;
+        this.x = x;
+        this.y = y;
+        this.image = new Image();
+        this.image.src = 'images/boom.png';
+        this.frame = 0;
+        this.timer = 0;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.sound = new Audio();
+        this.sound.src = 'sounds/boom.wav'
+    }
 
-ctx.fillStyle = "green";
-ctx.arc(circle1.x, circle1.y, circle1.radius, 0, 360);
-ctx.fillStyle = "red";
-ctx.arc(circle2.x, circle2.y, circle2.radius, 0, 360);
+    update() {
+        if (this.frame === 0) this.sound.play();
+        this.timer++;
+        if (this.timer % 10 === 0) {
+            this.frame++;
+        }
+    }
 
-let dx = circle2.x - circle1.x;
-let dy = circle2.y - circle1.y;
-let distance = Math.sqrt(dx*dx + dy*dy);
-let sumOfRadii = circle1.radius + circle2.radius;
-
-if (distance < sumOfRadii) {
-    // collision detected
-    console.log("collision detected");
-} else if (distance === sumOfRadii) {
-    // circles touch
-    console.log("touch detected");
-} else {
-    // no collision detected
-    console.log("no collision detected");
+    draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.drawImage(this.image, this.spriteWidth * this.frame, 0, this.spriteWidth, this.spriteHeight, 0 - this.width / 2, 0 - this.height / 2, this.width, this.height);
+        ctx.restore();
+    }
 }
+
+window.addEventListener('click', function (e) {
+    createAnimation(e);
+});
+
+/*
+window.addEventListener('mousemove', function (e) {
+    createAnimation(e);
+});
+*/
+
+function createAnimation(e) {
+    let positionX = e.x - canvasPosition.left;
+    let positionY = e.y - canvasPosition.top;
+
+    explosions.push(new Explosion(positionX, positionY));
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < explosions.length; i++) {
+        explosions[i].update();
+        explosions[i].draw();
+        if (explosions[i].frame > 5) {
+            explosions.splice(i, 1);
+            i--;
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
+animate();
