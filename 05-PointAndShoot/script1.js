@@ -12,13 +12,11 @@ const collisionCtx = collisionCanvas.getContext('2d');
 const COLLISION_CANVAS_WIDTH = collisionCanvas.width = window.innerWidth;
 const COLLISION_CANVAS_HEIGHT = collisionCanvas.height = window.innerHeight;
 
-let score = 0;
-let gameOver = false;
-ctx.font = '50px Impact';
-
 let timeToNextRaven = 0;
 let ravenInterval = 500; // ms
 let lastTime = 0;
+let score = 0;
+ctx.font = '50px Impact';
 
 let ravens = [];
 class Raven {
@@ -57,8 +55,6 @@ class Raven {
             if (this.frame > this.maxFrame) this.frame = 0; else this.frame++;
             this.timeSinceFlap = 0;
         }
-
-        if (this.x < 0 - this.width) gameOver = true;
     }
 
     draw() {
@@ -68,40 +64,6 @@ class Raven {
     }
 }
 
-let explosions = [];
-class Explosion {
-    constructor(x, y, size) {
-        this.image = new Image();
-        this.image.src = 'images/boom.png';
-        this.spriteWidth = 200;
-        this.spriteHeight = 179;
-        this.size = size;
-        this.x = x;
-        this.y = y;
-        this.frame = 0;
-        this.sound = new Audio();
-        this.sound.src = 'sounds/boom.wav';
-        this.timeSinceLastFrame = 0;
-        this.frameInterval = 200;
-        this.markedForDeletion = false;
-    }
-
-    update(deltatime) {
-        if (this.frame === 0) this.sound.play();
-        this.timeSinceLastFrame += deltatime;
-        if (this.timeSinceLastFrame > this.frameInterval) {
-            this.frame++;
-            this.timeSinceLastFrame = 0;
-            if (this.frame > 5) this.markedForDeletion = true;
-        }
-    }
-
-    draw() {
-        ctx.drawImage(this.image, this.frame * this.spriteWidth, 0,this.spriteWidth, this.spriteHeight, this.x, this.y - this.size/4, this.size, this.size);
-    }
-    
-}
-
 function drawScore() {
     ctx.fillStyle = 'black';
     ctx.fillText('Score: ' + score, 50,75);
@@ -109,13 +71,6 @@ function drawScore() {
     ctx.fillText('Score: ' + score, 55,80);
 }
 
-function drawGameOver() {
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'black';
-    ctx.fillText('GAME OVER, your score: ' + score, canvas.width/2, canvas.height/2);
-    ctx.fillStyle = 'white';
-    ctx.fillText('GAME OVER, your score: ' + score, canvas.width/2 + 5, canvas.height/2 +5);
-}
 /*
 Collision detection by color
 */
@@ -132,7 +87,6 @@ window.addEventListener('click', function(e) {
         (object.randomColors[2] === pc[2])) {
             object.markedForDeletion = true;
             score++;
-            explosions.push(new Explosion(object.x, object.y, object.width));
         }
     });
 });
@@ -153,12 +107,13 @@ function animate(timestamp) {
         });
     }
     drawScore();
-    [...ravens, ...explosions].forEach(object => {object.update(deltatime); });
-    [...ravens, ...explosions].forEach(object => {object.draw(); });
+    [...ravens].forEach(object => {
+        object.update(deltatime);
+        object.draw();
+    });
     ravens = ravens.filter(object => !object.markedForDeletion);
-    explosions = explosions.filter(object => !object.markedForDeletion);
-    if (!gameOver) requestAnimationFrame(animate); else
-    drawGameOver();
+
+    requestAnimationFrame(animate);
 }
 
 animate(0);
