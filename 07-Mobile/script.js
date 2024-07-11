@@ -7,6 +7,7 @@ window.addEventListener('load', function () { /* activated when web page is full
     const CANVAS_HEIGHT = canvas.height = 720;
 
     let enemies = [];
+    let score = 0;
 
     class InputHandler {
         constructor() {
@@ -32,9 +33,6 @@ window.addEventListener('load', function () { /* activated when web page is full
                 }
             });
         }
-
-
-
     }
 
     class Player {
@@ -47,19 +45,31 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.y = this.gameHeight - this.height;
             this.image = document.getElementById('playerImage');
             this.frameX = 0;
+            this.maxFrame = 8;
             this.frameY = 0;
+            this.fps = 20; // framse per second
+            this.frameTimer = 0;
+            this.frameInterval = 1000 / this.fps;
             this.speed = 1;
             this.vy = 0;
             this.weigth = 1; // pull player down
         }
 
         draw(context) {
-            context.fillStyle = 'white';
-            context.fillRect(this.x, this.y, this.width, this.height);
+            // remove background white rectangle
+            //context.fillStyle = 'white';
+            //context.fillRect(this.x, this.y, this.width, this.height);
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
         }
 
-        update(input) {
+        update(input, deltaTime) {
+            if (this.frameTimer > this.frameInterval) {
+                if (this.frameX >= this.maxFrame) this.frameX = 0;
+                else this.frameX++;
+                this.frameTimer = 0;
+            } else {
+                this.frameTimer += deltaTime;
+            }
 
             if (input.keys.indexOf('ArrowRight') > -1) {
                 this.speed = 5;
@@ -80,9 +90,11 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.y += this.vy;
             if (!this.onGround()) { // if player in the air
                 this.vy += this.weigth;
+                this.maxFrame = 5;
                 this.frameY = 1;
             } else {
                 this.vy = 0;
+                this.maxFrame = 8;
                 this.frameY = 0;
             }
             if (this.y > this.gameHeight - this.height) this.y = this.gameHeight - this.height;
@@ -128,15 +140,33 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.x = this.gameWidth;
             this.y = this.gameHeight - this.height;
             this.frameX = 0;
+            this.maxFrame = 5;
+            this.fps = 20; // framse per second
+            this.frameTimer = 0;
+            this.frameInterval = 1000 / this.fps;
             this.speed = 8;
+            this.markedForDeletion = false;
         }
 
         draw(context) {
+            context.strokeStyle = 'white';
+            context.stokeRect(this.x, this.y, this.width, this.height);
             context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height);
         }
 
-        update() {
+        update(deltaTime) {
+            if (this.frameTimer > this.frameInterval) {
+                if (this.frameX >= this.maxFrame) this.frameX = 0;
+                else this.frameX++;
+                this.frameTimer = 0;
+            } else {
+                this.frameTimer += deltaTime;
+            }
             this.x -= this.speed;
+            if (this.x < 0 - this.width) {
+                this.markedForDeletion = true;
+                score++;
+            }
         }
 
     }
@@ -153,13 +183,17 @@ window.addEventListener('load', function () { /* activated when web page is full
 
         enemies.forEach(enemy => {
             enemy.draw(ctx);
-            enemy.update();
-        })
-
+            enemy.update(deltaTime);
+        });
+        enemies = enemies.filter(enemy => !enemy.markedForDeletion);
     }
 
-    function displayStatusText() {
-
+    function displayStatusText(context) {
+        context.font = '40px Helvetica';
+        context.fillStyle = 'black';        
+        context.fillText('Score: '+ score, 20, 50);
+        context.fillStyle = 'white';        
+        context.fillText('Score: '+ score, 22, 52);
     }
 
     const input = new InputHandler();
@@ -181,9 +215,11 @@ window.addEventListener('load', function () { /* activated when web page is full
         background.draw(ctx);
         //background.update();
         player.draw(ctx);
-        player.update(input);
+        player.update(input, deltaTime);
 
         handleEnemies(deltaTime);
+
+        displayStatusText(ctx);
 
         requestAnimationFrame(animate);
     }
