@@ -8,6 +8,7 @@ window.addEventListener('load', function () { /* activated when web page is full
 
     let enemies = [];
     let score = 0;
+    let gameOver = false;
 
     class InputHandler {
         constructor() {
@@ -55,14 +56,21 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.weigth = 1; // pull player down
         }
 
-        draw(context) {
-            // remove background white rectangle
-            //context.fillStyle = 'white';
-            //context.fillRect(this.x, this.y, this.width, this.height);
+        draw(context) {           
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
         }
 
-        update(input, deltaTime) {
+        update(input, deltaTime, enmies) {
+            // collision detection
+            enemies.forEach(enemy => {
+                const dx = (enemy.x + enemy.width/2)- (this.x + this.width/2);
+                const dy = (enemy.y + enemy.height/2) - (this.y + this.height/2);
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < enemy.width / 2 + this.width / 2) {
+                    gameOver = true;
+                }
+            });
+            // sprite animation
             if (this.frameTimer > this.frameInterval) {
                 if (this.frameX >= this.maxFrame) this.frameX = 0;
                 else this.frameX++;
@@ -127,7 +135,6 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.x -= this.speed;
             if (this.x < 0 - this.width) this.x = 0;
         }
-
     }
 
     class Enemy {
@@ -148,9 +155,7 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.markedForDeletion = false;
         }
 
-        draw(context) {
-            context.strokeStyle = 'white';
-            context.stokeRect(this.x, this.y, this.width, this.height);
+        draw(context) {           
             context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height);
         }
 
@@ -168,7 +173,6 @@ window.addEventListener('load', function () { /* activated when web page is full
                 score++;
             }
         }
-
     }
 
     function handleEnemies(deltaTime) {
@@ -190,10 +194,19 @@ window.addEventListener('load', function () { /* activated when web page is full
 
     function displayStatusText(context) {
         context.font = '40px Helvetica';
-        context.fillStyle = 'black';        
-        context.fillText('Score: '+ score, 20, 50);
-        context.fillStyle = 'white';        
-        context.fillText('Score: '+ score, 22, 52);
+        context.fillStyle = 'black';
+        context.fillText('Score: ' + score, 20, 50);
+        context.fillStyle = 'white';
+        context.fillText('Score: ' + score, 22, 52);
+        console.log('gameOver: ' + gameOver);
+        if (gameOver) {
+            console.log('gameOver: ' + gameOver);
+            context.textAlign = 'center';
+            context.fillStyle = 'black';
+            context.fillText('GAME OVER, try again!', canvas.width / 2, 200);
+            context.fillStyle = 'white';
+            context.fillText('GAME OVER, try again!', canvas.width / 2 + 2, 202);
+        }
     }
 
     const input = new InputHandler();
@@ -215,13 +228,13 @@ window.addEventListener('load', function () { /* activated when web page is full
         background.draw(ctx);
         //background.update();
         player.draw(ctx);
-        player.update(input, deltaTime);
+        player.update(input, deltaTime, enemies);
 
         handleEnemies(deltaTime);
 
         displayStatusText(ctx);
 
-        requestAnimationFrame(animate);
+        if (!gameOver) requestAnimationFrame(animate);
     }
 
     animate(0);
