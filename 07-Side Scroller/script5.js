@@ -197,7 +197,7 @@ window.addEventListener('load', function () { /* activated when web page is full
         context.fillStyle = 'black';
         context.fillText('Score: ' + score, 20, 50);
         context.fillStyle = 'white';
-        context.fillText('Score: ' + score, 22, 52);
+        context.fillText('Score: ' + score, 22, 52);        
         if (gameOver) {
             context.textAlign = 'center';
             context.fillStyle = 'black';

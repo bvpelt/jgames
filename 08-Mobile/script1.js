@@ -3,7 +3,7 @@
 window.addEventListener('load', function () { /* activated when web page is fully loaded  https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event */
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
-    const CANVAS_WIDTH = canvas.width = 800;
+    const CANVAS_WIDTH = canvas.width = 1400;
     const CANVAS_HEIGHT = canvas.height = 720;
 
     let enemies = [];
@@ -13,25 +13,39 @@ window.addEventListener('load', function () { /* activated when web page is full
     class InputHandler {
         constructor() {
             this.keys = [];
-            window.addEventListener('keydown', e => {
 
+            // keyboard events
+            window.addEventListener('keydown', e => {
                 if ((e.key === 'ArrowDown' ||
                     e.key === 'ArrowUp' ||
                     e.key === 'ArrowLeft' ||
                     e.key === 'ArrowRight') &&
                     this.keys.indexOf(e.key) === -1) { /* only add key if not yet in this.keys */
                     this.keys.push(e.key);
-                }
+                } else if (e.key === 'Enter' && gameOver) restartGame();
             });
 
             window.addEventListener('keyup', e => {
-
                 if ((e.key === 'ArrowDown' ||
                     e.key === 'ArrowUp' ||
                     e.key === 'ArrowLeft' ||
                     e.key === 'ArrowRight')) {
                     this.keys.splice(this.keys.indexOf(e.key), 1);
                 }
+            });
+            
+            // mobile events
+            window.addEventListener('touchstart', e => {
+                console.log('start');
+                console.log(e);
+            });
+
+            window.addEventListener('touchmove', e => {
+                console.log('move');
+            });
+
+            window.addEventListener('touchend', e => {
+                console.log('end');
             });
         }
     }
@@ -42,7 +56,7 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.gameHeight = gameHeight;
             this.width = 200;
             this.height = 200;
-            this.x = 0;
+            this.x = 100;
             this.y = this.gameHeight - this.height;
             this.image = document.getElementById('playerImage');
             this.frameX = 0;
@@ -54,6 +68,13 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.speed = 1;
             this.vy = 0;
             this.weigth = 1; // pull player down
+        }
+
+        restart() {
+            this.x = 100;
+            this.y = this.gameHeight - this.height;
+            this.maxFrame = 8;
+            this.frameY = 0;
         }
 
         draw(context) {           
@@ -135,6 +156,11 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.x -= this.speed;
             if (this.x < 0 - this.width) this.x = 0;
         }
+
+        restart() {
+            this.x = 0;
+            this.y = 0;
+        }
     }
 
     class Enemy {
@@ -193,18 +219,30 @@ window.addEventListener('load', function () { /* activated when web page is full
     }
 
     function displayStatusText(context) {
+        context.textAlign = 'left';
         context.font = '40px Helvetica';
         context.fillStyle = 'black';
         context.fillText('Score: ' + score, 20, 50);
         context.fillStyle = 'white';
-        context.fillText('Score: ' + score, 22, 52);
+        context.fillText('Score: ' + score, 22, 52);        
         if (gameOver) {
             context.textAlign = 'center';
             context.fillStyle = 'black';
-            context.fillText('GAME OVER, try again!', canvas.width / 2, 200);
+            context.fillText('GAME OVER, press Enter to restart!', canvas.width / 2, 200);
             context.fillStyle = 'white';
-            context.fillText('GAME OVER, try again!', canvas.width / 2 + 2, 202);
+            context.fillText('GAME OVER, press Enter to restart!', canvas.width / 2 + 2, 202);
         }
+    }
+
+    function restartGame() {
+        player.restart();
+        background.restart();
+
+        enemies = [];
+        gameOver = false;
+        score = 0;
+
+        animate(0);
     }
 
     const input = new InputHandler();
