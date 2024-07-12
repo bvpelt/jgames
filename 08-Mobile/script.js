@@ -6,9 +6,27 @@ window.addEventListener('load', function () { /* activated when web page is full
     const CANVAS_WIDTH = canvas.width = 1400;
     const CANVAS_HEIGHT = canvas.height = 720;
 
+    // keyboard
+    const KEY_DOWN = 'keydown';
+    const KEY_ENTER = 'Enter';
+    const KEY_UP = 'keyup';
+    const ARROW_RIGHT = 'ArrowRight';
+    const ARROW_LEFT = 'ArrowLeft';
+    const ARROW_UP = 'ArrowUp';
+    const ARROW_DOWN = 'ArrowDown';
+    // mobile
+    const TOUCH_START = 'touchstart';
+    const TOUCH_MOVE = 'touchmove';
+    const TOUCH_END = 'touchend';
+    const SWIPE_UP = 'swipe up';
+    const SWIPE_DOWN = 'swipe down';
+    // messages
+    const GAME_OVER = 'GAME OVER, press Enter or swipe down to restart!';
+
     let enemies = [];
     let score = 0;
     let gameOver = false;
+    const fullScreenButton = document.getElementById('fullScreenButton');
 
     class InputHandler {
         constructor() {
@@ -17,37 +35,42 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.touchTreshold = 30;
 
             // keyboard events
-            window.addEventListener('keydown', e => {
-                if ((e.key === 'ArrowDown' ||
-                    e.key === 'ArrowUp' ||
-                    e.key === 'ArrowLeft' ||
-                    e.key === 'ArrowRight') &&
+            window.addEventListener(KEY_DOWN, e => {
+                if ((e.key === ARROW_DOWN ||
+                    e.key === ARROW_UP ||
+                    e.key === ARROW_LEFT ||
+                    e.key === ARROW_RIGHT) &&
                     this.keys.indexOf(e.key) === -1) { /* only add key if not yet in this.keys */
                     this.keys.push(e.key);
-                } else if (e.key === 'Enter' && gameOver) restartGame();
+                } else if (e.key === KEY_ENTER && gameOver) restartGame();
             });
 
-            window.addEventListener('keyup', e => {
-                if ((e.key === 'ArrowDown' ||
-                    e.key === 'ArrowUp' ||
-                    e.key === 'ArrowLeft' ||
-                    e.key === 'ArrowRight')) {
+            window.addEventListener(KEY_UP, e => {
+                if ((e.key === ARROW_DOWN ||
+                    e.key === ARROW_UP ||
+                    e.key === ARROW_LEFT ||
+                    e.key === ARROW_RIGHT)) {
                     this.keys.splice(this.keys.indexOf(e.key), 1);
                 }
             });
-            
+
             // mobile events
-            window.addEventListener('touchstart', e => {                
-                console.log(e.changedTouches[0].pageY);
+            window.addEventListener(TOUCH_START, e => {
                 this.touchY = e.changedTouches[0].pageY;
             });
 
-            window.addEventListener('touchmove', e => {
-                console.log(e.changedTouches[0].pageY);
+            window.addEventListener(TOUCH_MOVE, e => {
+                const swipeDistance = e.changedTouches[0].pageY - this.touchY;
+                if ((swipeDistance < -this.touchTreshold) && this.keys.indexOf(SWIPE_UP) === -1) this.keys.push(SWIPE_UP);
+                else if ((swipeDistance > this.touchTreshold) && this.keys.indexOf(SWIPE_DOWN) === -1) {
+                    this.keys.push(SWIPE_DOWN);
+                    if (gameOver) restartGame();
+                }
             });
 
-            window.addEventListener('touchend', e => {
-                console.log(e.changedTouches[0].pageY);
+            window.addEventListener(TOUCH_END, e => {                
+                this.keys.splice(this.keys.indexOf(SWIPE_UP), 1)
+                this.keys.splice(this.keys.indexOf(SWIPE_DOWN), 1)
             });
         }
     }
@@ -79,17 +102,17 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.frameY = 0;
         }
 
-        draw(context) {           
+        draw(context) {          
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
         }
 
         update(input, deltaTime, enmies) {
             // collision detection
             enemies.forEach(enemy => {
-                const dx = (enemy.x + enemy.width/2)- (this.x + this.width/2);
-                const dy = (enemy.y + enemy.height/2) - (this.y + this.height/2);
+                const dx = (enemy.x + enemy.width / 2 - 20) - (this.x + this.width / 2);
+                const dy = (enemy.y + enemy.height / 2) - (this.y + this.height / 2 + 20);
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < enemy.width / 2 + this.width / 2) {
+                if (distance < enemy.width / 3 + this.width / 3) {
                     gameOver = true;
                 }
             });
@@ -101,12 +124,13 @@ window.addEventListener('load', function () { /* activated when web page is full
             } else {
                 this.frameTimer += deltaTime;
             }
+            
 
-            if (input.keys.indexOf('ArrowRight') > -1) {
+            if (input.keys.indexOf(ARROW_RIGHT) > -1) {
                 this.speed = 5;
-            } else if ((input.keys.indexOf('ArrowLeft') > -1)) {
+            } else if ((input.keys.indexOf(ARROW_LEFT) > -1)) {
                 this.speed = -5;
-            } else if ((input.keys.indexOf('ArrowUp') > -1) && this.onGround()) {
+            } else if ((input.keys.indexOf(ARROW_UP) > -1 || input.keys.indexOf(SWIPE_UP) > -1) && this.onGround()) {
                 this.vy -= 32;
             } else {
                 this.speed = 0;
@@ -183,8 +207,8 @@ window.addEventListener('load', function () { /* activated when web page is full
             this.markedForDeletion = false;
         }
 
-        draw(context) {           
-            context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+        draw(context) {
+            context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height);         
         }
 
         update(deltaTime) {
@@ -226,13 +250,13 @@ window.addEventListener('load', function () { /* activated when web page is full
         context.fillStyle = 'black';
         context.fillText('Score: ' + score, 20, 50);
         context.fillStyle = 'white';
-        context.fillText('Score: ' + score, 22, 52);        
+        context.fillText('Score: ' + score, 22, 52);
         if (gameOver) {
             context.textAlign = 'center';
             context.fillStyle = 'black';
-            context.fillText('GAME OVER, press Enter to restart!', canvas.width / 2, 200);
+            context.fillText(GAME_OVER, canvas.width / 2, 200);
             context.fillStyle = 'white';
-            context.fillText('GAME OVER, press Enter to restart!', canvas.width / 2 + 2, 202);
+            context.fillText(GAME_OVER, canvas.width / 2 + 2, 202);
         }
     }
 
@@ -246,6 +270,21 @@ window.addEventListener('load', function () { /* activated when web page is full
 
         animate(0);
     }
+
+
+    function toggleFullScreen() {        
+        if (!document.fullscreenElement) { // document.fullscreenElement === null not in fullscreen mode
+            canvas.requestFullscreen().catch(err => {
+                alert(`Error, can't enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    fullScreenButton.addEventListener('click', e => {        
+        toggleFullScreen()
+    });
 
     const input = new InputHandler();
     const player = new Player(canvas.width, canvas.height);
