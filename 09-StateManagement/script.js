@@ -1,6 +1,8 @@
 /** @type {HTMLCanvasElement} */
 
 import Player from './player.js';
+import InputHandler from './input.js';
+import { drawStatusText } from './utils.js';
 
 window.addEventListener('load', e => {
     const loading = document.getElementById('loading');
@@ -12,6 +14,18 @@ window.addEventListener('load', e => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    console.log('width: ' + canvas.width);
-    console.log('heigth: ' + canvas.height);
+
+    const player = new Player(canvas.width, canvas.height);
+    
+    const input = new InputHandler();
+
+
+    function animate() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        player.update(input.lastKey);
+        player.draw(ctx);
+        drawStatusText(ctx, input);
+        requestAnimationFrame(animate);
+    }
+    animate();
 });
