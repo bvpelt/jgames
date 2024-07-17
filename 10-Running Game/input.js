@@ -4,11 +4,11 @@ const KEY_DOWN = 'keydown';
 const KEY_UP = 'keyup';
 
 // keys
-const ARROW_DOWN = 'ArrowDown';
-const ARROW_UP = 'ArrowUp';
-const ARROW_LEFT = 'ArrowLeft';
-const ARROW_RIGHT = 'ArrowRight';
-const ENTER = 'Enter';
+export const ARROW_DOWN = 'ArrowDown';
+export const ARROW_UP = 'ArrowUp';
+export const ARROW_LEFT = 'ArrowLeft';
+export const ARROW_RIGHT = 'ArrowRight';
+export const ENTER = 'Enter';
 
 
 export class InputHandler {
