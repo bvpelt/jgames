@@ -8,7 +8,7 @@ export class Player {
         this.image = document.getElementById('player'); // alternative use player from the id in index.html
     }
 
-    update() {
+    update(input) {
         this.x++;
 
     }
