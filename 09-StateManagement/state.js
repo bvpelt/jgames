@@ -23,7 +23,7 @@ class State {
 export class StandingLeft extends State {
     constructor(player) {
         super('STANDING LEFT');
-        this.player = player;
+        this.player = player;   
     }
 
     enter() {
@@ -163,7 +163,7 @@ export class JumpingRight extends State {
     enter() {
         this.player.maxFrame = 6;
         this.player.frameY = 2;        
-        if (this.player.onGround()) this.player.vy -= 20;
+        if (this.player.onGround()) this.player.vy -= 20; 
         this.player.speed = this.player.maxSpeed * 0.5;
     }
 

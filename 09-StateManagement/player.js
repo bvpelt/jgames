@@ -18,12 +18,20 @@ export default class Player {
         this.maxFrame = 6;
         this.frameY = 0;
         this.speed = 0;
-        this.maxSpeed = 10;
+        this.maxSpeed = 12;
+        this.fps = 25;
+        this.frameTimer = 0;
+        this.frameInterval = 1000/this.fps; // milliseconds divided by fps
     }
 
-    draw(context) {
-        if (this.frameX < this.maxFrame) this.frameX++;
-        else this.frameX = 0;
+    draw(context, deltaTime) {
+        if (this.frameTimer > this.frameInterval) {
+            if (this.frameX < this.maxFrame) this.frameX++;
+            else this.frameX = 0;
+            this.frameTimer = 0;
+        } else {
+            this.frameTimer += deltaTime;
+        }
 
         context.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height);
     }
@@ -37,7 +45,6 @@ export default class Player {
 
         // vertical movement
         this.y += this.vy;
-        console.log('y: '+ this.y, ' onGround: ' + this.onGround());
         if (!this.onGround()) {
             this.vy += this.weight;
         } else {
@@ -46,8 +53,7 @@ export default class Player {
         if (this.y > this.gameHeight - this.height) this.y = this.gameHeight - this.height;
     }
 
-    setState(state) {
-        //console.log('Player state: ' + state);
+    setState(state) {        
         this.currentState = this.states[state];
         this.currentState.enter();
     }
