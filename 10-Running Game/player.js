@@ -7,12 +7,16 @@ export class Player {
         this.width = 100;
         this.height = 91.3;
         this.x = 0;
-        this.y = this.game.height - this.height;
+        this.y = this.game.height - this.height - this.game.groundMargin;
         this.vy = 0;
         this.weight = 1;
         this.image = document.getElementById('player'); // alternative use player from the id in index.html
         this.frameX = 0;
         this.frameY = 0;
+        this.maxFrame = 5;
+        this.fps = 20; //framse per second
+        this.frameInterval = 1000 / this.fps;
+        this.frameTimer = 0;
         this.speed = 0;
         this.maxSpeed = 10; // pixels / frame
         // The order of the states follows the declaration of stats enum from playerStates.js
@@ -21,8 +25,8 @@ export class Player {
         this.currentState.enter();
     }
 
-    update(input) {
-        this.currentState.handleInput(input);
+    update(input, deltaTime) {
+        this.currentState.handleInput(input);        
         // horizontal movement
         this.x += this.speed;
         if (input.includes(ARROW_RIGHT)) this.speed = this.maxSpeed;
@@ -30,11 +34,21 @@ export class Player {
         else this.speed = 0;
         if (this.x < 0) this.x = 0;
         if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
-        // vertical movement        
-        //if (input.includes(ARROW_UP) && this.onGround()) this.vy -= 20;
+        // vertical movement                
         this.y += this.vy;
         if (!this.onGround()) this.vy += this.weight;
-        else this.vy = 0;
+        else {
+            this.vy = 0;
+            this.y = this.game.height - this.height - this.game.groundMargin;
+        }
+        // sprite animation
+        if (this.frameTimer > this.frameInterval) {
+            this.frameTimer = 0;
+            if (this.frameX < this.maxFrame) this.frameX++;
+            else this.frameX = 0;
+        } else {
+            this.frameTimer += deltaTime;
+        }
     }
 
     draw(context) {
@@ -42,11 +56,12 @@ export class Player {
     }
 
     onGround() {
-        return this.y >= this.game.height - this.height;
+        return this.y >= this.game.height - this.height - this.game.groundMargin;
     }
 
-    setState(state) {
+    setState(state, speed) {
         this.currentState = this.states[state];
+        this.game.speed = speed;
         this.currentState.enter();
     }
 }

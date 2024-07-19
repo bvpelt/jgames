@@ -20,12 +20,14 @@ export class Sitting extends State {
     }
 
     enter() {
-        this.player.frameY = 5;
+        this.player.frameX = 0;
+        this.player.maxFrame = 4;
+        this.player.frameY = 5;        
     }
 
     handleInput(input) {
         if (input.includes(ARROW_LEFT) || input.includes(ARROW_RIGHT)) {
-            this.player.setState(states.RUNNING);
+            this.player.setState(states.RUNNING, 1);
         }
     }
 }
@@ -37,15 +39,17 @@ export class Running extends State {
     }
 
     enter() {
-        this.player.frameY = 3;
+        this.player.frameX = 0;
+        this.player.maxFrame = 8; // should be 8
+        this.player.frameY = 3;        
     }
 
     handleInput(input) {
         if (input.includes(ARROW_DOWN) ) {
-            this.player.setState(states.SITTING);
+            this.player.setState(states.SITTING, 0);
         }
         if (input.includes(ARROW_UP) ) {
-            this.player.setState(states.JUMPING);
+            this.player.setState(states.JUMPING, 1);
         }
     }
 }
@@ -58,12 +62,14 @@ export class Jumping extends State {
 
     enter() {
         if (this.player.onGround()) this.player.vy -= 30;
+        this.player.frameX = 0;
+        this.player.maxFrame = 6;
         this.player.frameY = 1;
     }
 
     handleInput(input) {
         if (this.player.vy > this.player.weight) {
-            this.player.setState(states.FALLING);
+            this.player.setState(states.FALLING, 1);
         }
     }
 }
@@ -75,12 +81,14 @@ export class Falling extends State {
     }
 
     enter() {       
+        this.player.frameX = 0;
+        this.player.maxFrame = 6;
         this.player.frameY = 2;
     }
 
     handleInput(input) {
         if (this.player.onGround()) {
-            this.player.setState(states.RUNNING);
+            this.player.setState(states.RUNNING,1 );
         }
     }
 }
