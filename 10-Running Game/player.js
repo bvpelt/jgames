@@ -13,7 +13,6 @@ export class Player {
         this.image = document.getElementById('player'); // alternative use player from the id in index.html
         this.frameX = 0;
         this.frameY = 0;
-
         this.maxFrame = 5;
         this.fps = 20; //framse per second
         this.frameInterval = 1000 / this.fps;
@@ -62,12 +61,7 @@ export class Player {
 
     setState(state, speed) {
         this.currentState = this.states[state];
-        this.game.speed = speed;
-        this.currentState.enter();
-    }
-
-    setState(state) {
-        this.currentState = this.states[state];
+        this.game.speed = this.game.maxSpeed * speed;
         this.currentState.enter();
     }
 }
