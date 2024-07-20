@@ -20,7 +20,8 @@ export class Player {
         this.speed = 0;
         this.maxSpeed = 10; // pixels / frame
         // The order of the states follows the declaration of stats enum from playerStates.js
-        this.states = [new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game)];       
+        this.states = [new Sitting(this.game), new Running(this.game), new Jumping(this.game), 
+            new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game)];       
     }
 
     update(input, deltaTime) {
@@ -31,13 +32,17 @@ export class Player {
         if (input.includes(ARROW_RIGHT)) this.speed = this.maxSpeed;
         else if (input.includes(ARROW_LEFT)) this.speed = -this.maxSpeed;
         else this.speed = 0;
+        // horizontal boundaries
         if (this.x < 0) this.x = 0;
         if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
         // vertical movement                
         this.y += this.vy;
         if (!this.onGround()) this.vy += this.weight;
         else {
-            this.vy = 0;
+            this.vy = 0;            
+        }
+        // vertical boundaries
+        if (this.onGround()) {
             this.y = this.game.height - this.height - this.game.groundMargin;
         }
         // sprite animation
@@ -76,10 +81,12 @@ export class Player {
             ) {
                 // collision detected
                 enemy.markedForDeletion = true;
-                this.game.score++;
-            } else {
-                // no collision
-            }
+                if (this.currentState === this.states[4] ||this.currentState === this.states[5] ) {
+                    this.game.score++;
+                } else {
+                    this.setState(6, 0);
+                }
+            } 
         });
     }
 }
