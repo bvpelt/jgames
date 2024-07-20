@@ -2,7 +2,7 @@
 Javascript games
 
 See https://www.youtube.com/watch?v=GFO_txvwK_c 
-Till: 9:00:00
+Till: 9:02:00
 
 See also [Angel Policarpo](https://github.com/AngelPolicarpo/FCC-GameDev-Course)
 

@@ -53,7 +53,7 @@ export class Running extends State {
     }
 
     handleInput(input) {
-        this.game.particles.push(new Dust(this.game, this.game.player.x + this.game.player.width * 0.6, this.game.player.y + this.game.player.height));
+        this.game.particles.unshift(new Dust(this.game, this.game.player.x + this.game.player.width * 0.6, this.game.player.y + this.game.player.height));
         if (input.includes(ARROW_DOWN)) {
             this.game.player.setState(states.SITTING, 0);
         } else if (input.includes(ARROW_UP)) {
@@ -115,7 +115,7 @@ export class Rolling extends State {
     }
 
     handleInput(input) {
-        this.game.particles.push(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));        
+        this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));        
         
         if (!input.includes(ENTER) && this.game.player.onGround()) {
             this.game.player.setState(states.RUNNING, 1);
