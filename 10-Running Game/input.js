@@ -12,8 +12,9 @@ export const ENTER = 'Enter';
 
 
 export class InputHandler {
-    constructor() {
+    constructor(game) {
         this.keys = [];
+        this.game = game;
 
         window.addEventListener(KEY_DOWN, e => {
             if ((e.key === ARROW_DOWN ||
@@ -23,8 +24,8 @@ export class InputHandler {
                 e.key === ENTER)
                 && this.keys.indexOf(e.key) === -1) {
                 this.keys.push(e.key);
-            }
-            console.log('down ', e.key, this.keys);
+            } else if (e.key === 'd') this.game.debug = !this.game.debug;
+            
         });
 
         window.addEventListener(KEY_UP, e => {
@@ -35,7 +36,7 @@ export class InputHandler {
                 e.key === ENTER) {
                 this.keys.splice(this.keys.indexOf(e.key), 1);
             }
-            console.log('up ', e.key, this.keys);
+            
         });
     }
 }
