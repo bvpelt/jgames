@@ -12,14 +12,12 @@ const states = {
     HIT: 6
 }
 
-
 class State {
     constructor(state, game) {
         this.state = state;
         this.game = game;
     }
 }
-
 
 export class Sitting extends State {
     constructor(game) {
@@ -48,7 +46,7 @@ export class Running extends State {
 
     enter() {
         this.game.player.frameX = 0;
-        this.game.player.maxFrame = 8; // should be 8
+        this.game.player.maxFrame = 8;
         this.game.player.frameY = 3;
     }
 
@@ -127,7 +125,7 @@ export class Rolling extends State {
             this.game.player.setState(states.FALLING, 1);
         } else if (input.includes(ENTER) && input.includes(ARROW_UP) && this.game.player.onGround()) {
             this.game.player.vy -= 27;
-        } else if (input.includes(ARROW_DOWN)) {
+        } else if (input.includes(ARROW_DOWN) && !this.game.player.onGround()) {
             this.game.player.setState(states.DIVING, 0);
         }
     }

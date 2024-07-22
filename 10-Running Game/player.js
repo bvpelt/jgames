@@ -30,8 +30,8 @@ export class Player {
         this.currentState.handleInput(input);
         // horizontal movement
         this.x += this.speed;
-        if (input.includes(ARROW_RIGHT)) this.speed = this.maxSpeed;
-        else if (input.includes(ARROW_LEFT)) this.speed = -this.maxSpeed;
+        if (input.includes(ARROW_RIGHT) && this.currentState !== this.states[6] ) this.speed = this.maxSpeed;
+        else if (input.includes(ARROW_LEFT) && this.currentState !== this.states[6]) this.speed = -this.maxSpeed;
         else this.speed = 0;
         // horizontal boundaries
         if (this.x < 0) this.x = 0;
