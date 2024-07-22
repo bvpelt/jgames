@@ -66,7 +66,7 @@ window.addEventListener('load', e => {
             });
 
             if (this.particles.length > this.maxParticles) {
-                this.particles = this.maxParticles;
+                this.particles.length = this.maxParticles;
             }
             // handle collisions
             this.collisions.forEach((collision, index) => {
