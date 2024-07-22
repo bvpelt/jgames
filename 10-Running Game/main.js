@@ -6,6 +6,7 @@ import { UI } from './ui.js';
 
 window.addEventListener('load', e => {
     const loading = document.getElementById('loading');
+    const fullScreenButton = document.getElementById('fullScreenButton');
 
     loading.style.display = 'none';
     const canvas = document.getElementById('canvas1');
@@ -42,6 +43,7 @@ window.addEventListener('load', e => {
             this.lives = 5;          
             this.player.currentState = this.player.states[0];
             this.player.currentState.enter();
+            console.log(this.background);
         }
 
         update(deltaTime) {
@@ -112,6 +114,20 @@ window.addEventListener('load', e => {
             this.enemies.push(new FyingEnemy(this));
         }
     }
+
+    function toggleFullScreen() {        
+        if (!document.fullscreenElement) { // document.fullscreenElement === null not in fullscreen mode
+            canvas.requestFullscreen().catch(err => {
+                alert(`Error, can't enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    fullScreenButton.addEventListener('click', e => {        
+        toggleFullScreen()
+    });
 
     const game = new Game(canvas.width, canvas.height);
     let lastTime = 0;
