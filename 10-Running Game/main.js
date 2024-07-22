@@ -11,7 +11,7 @@ window.addEventListener('load', e => {
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
 
-    canvas.width = 500;
+    canvas.width = 900;
     canvas.height = 500;
 
     class Game {
@@ -34,9 +34,10 @@ window.addEventListener('load', e => {
             this.enemyInterval = 1000; // milliseconds
             this.debug = false;
             this.score = 0;
+            this.winningScore = 40;
             this.fontColor = 'black';
             this.time = 0;
-            this.maxTime = 10000;  
+            this.maxTime = 30000;  
             this.gameOver = false; 
             this.lives = 5;          
             this.player.currentState = this.player.states[0];
@@ -72,7 +73,7 @@ window.addEventListener('load', e => {
             });
 
             if (this.particles.length > this.maxParticles) {
-                this.particles = this.maxParticles;
+                this.particles.length = this.maxParticles;
             };
 
             // handle collisions
@@ -82,7 +83,7 @@ window.addEventListener('load', e => {
 
             // cleanup marked for deletion objects
             this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion);
-            this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);
+            this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);            
             this.particles = this.particles.filter(particle => !particle.markedForDeletion);
             this.floatingMessages = this.floatingMessages.filter(message => !message.markedForDeletion);
         }
@@ -116,12 +117,16 @@ window.addEventListener('load', e => {
     let lastTime = 0;
 
     function animate(timeStamp) {
+        try {
         const deltaTime = timeStamp - lastTime;
         lastTime = timeStamp;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         game.update(deltaTime);
         game.draw(ctx);
         if (!game.gameOver) requestAnimationFrame(animate);
+        } catch (e) {
+            console.log(e.stack);
+        }
     }
 
     animate(lastTime);
