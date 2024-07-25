@@ -1,9 +1,10 @@
 // rollup.config.js
 //import resolve from '@rollup/plugin-node-resolve';
 //import commonjs from '@rollup/plugin-commonjs';
-//import terser from '@rollup/plugin-terser';
+import terser from '@rollup/plugin-terser';
 import { babel } from "@rollup/plugin-babel";
 import json from "@rollup/plugin-json";
+import image from '@rollup/plugin-image';
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
@@ -12,7 +13,7 @@ const production = !process.env.ROLLUP_WATCH;
 export default {
     input: 'src/scripts/main.js',
     output: {
-      file: 'app/dist/game.js',
+      file: 'public/game.js',
       format: 'iife',
       name: 'Game',
       sourcemap: 'inline'
@@ -26,8 +27,10 @@ export default {
         exclude: "node_modules/**",
         presets: ["@babel/preset-env"],
         plugins: ["babel-plugin-transform-html-import-to-string"],
-        extensions: [".js", ".html"],
+        extensions: [".js", ".html"]        
       }),
       json(),
+      production && terser(),
+      image()
     ]
   }
