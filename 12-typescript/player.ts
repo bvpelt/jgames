@@ -1,4 +1,7 @@
 import { Game } from './game';
+import { ARROW_DOWN, ARROW_UP, ARROW_LEFT, ARROW_RIGHT, ENTER } from './input';
+import { State, States} from './state';
+import { Sitting } from './Sitting';
 
 export class Player {
     game: Game;
@@ -18,15 +21,18 @@ export class Player {
     speed: number = 0;
     maxSpeed: number = 10; // pixels / frame
     context: any;
+    currentState: Sitting;
+    states[]: [Sitting];
     // The order of the states follows the declaration of stats enum from playerStates.js
-    //this.states = [new Sitting(this.game), new Running(this.game), new Jumping(this.game),
-    //new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game)];
-
+    
     constructor(game: Game, context: any) {
         this.game = game;
         this.y = this.game.height - this.height - this.game.groundMargin;
         this.context = context;
         this.image = document.getElementById('player')!;
+        this.states = [new Sitting(this.game), new Sitting(this.game),new Sitting(this.game),new Sitting(this.game),new Sitting(this.game),new Sitting(this.game),new Sitting(this.game) ]; //, new Running(this.game), new Jumping(this.game),
+    //new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game)];
+        this.currentState = this.states[0];
         console.log(this.image);
     }
 
@@ -39,5 +45,11 @@ export class Player {
 
     update(deltaTime: number) {
         this.x += 1;
+    }
+
+    setState(state:States, speed: number) {
+        this.currentState = this.states[state];
+        this.game.speed = this.game.maxSpeed * speed;
+        this.currentState.enter();
     }
 }
