@@ -1,18 +1,11 @@
-import { Game } from "./game";
+import { Game } from "../game";
 import { Particle } from "./particle";
 
-export class Dust implements Particle {
-    game: Game;
-    markedForDeletion: boolean = false;
-    size: number;
-    x: number;
-    y: number;
-    speedX: number;
-    speedY: number;
+export class Dust extends Particle {    
     color: string;
 
-    constructor(game: Game, x: number, y: number) {
-        this.game = game;
+    constructor(game:Game, x: number, y: number) {
+        super(game);
         this.size = Math.random() * 10 + 10;
         this.x = x;
         this.y = y;

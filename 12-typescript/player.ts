@@ -1,7 +1,7 @@
 import { Game } from './game';
 import { ARROW_DOWN, ARROW_UP, ARROW_LEFT, ARROW_RIGHT, ENTER } from './inputhandler';
-import { State, States} from './state';
-import { Sitting } from './sitting';
+import { State, States} from './states/state';
+import { Sitting } from './states/sitting';
 
 export class Player {
     game: Game;
@@ -46,6 +46,10 @@ export class Player {
 
     update(input: string[], deltaTime: number): void {
         this.x += 1;
+    }
+
+    onGround(): boolean {
+        return this.y >= this.game.height - this.height - this.game.groundMargin;
     }
 
     setState(state:States, speed: number): void {

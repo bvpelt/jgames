@@ -1,5 +1,5 @@
 import { Background } from './background';
-import { Particle } from './particle';
+import { Particle } from './particles/particle';
 import { Player } from './player';
 import { InputHandler } from './inputhandler';
 
@@ -43,7 +43,8 @@ export class Game {
     }
 
     update(deltaTime: number) {
-        this.player.update(deltaTime);
+        this.player.update(this.input.keys, deltaTime);
+        
         //if (this.time > this.maxTime) this.gameOver = true;
         this.background.update();
         this.player.update(this.input.keys, deltaTime);

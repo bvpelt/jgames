@@ -1,15 +1,12 @@
-import { Game } from './game';
+import { Game } from '../game';
 import { State, States } from './state';
-import { ARROW_DOWN, ARROW_UP, ARROW_LEFT, ARROW_RIGHT, ENTER } from './inputhandler';
-import { Dust } from './dust';
+import { ARROW_DOWN, ARROW_UP, ARROW_LEFT, ARROW_RIGHT, ENTER } from '../inputhandler';
+import { Dust } from '../particles/dust';
 
-export class Running implements State {
-    state: States;
-    game: Game;
-
+export class Running extends State {
+   
     constructor(game: Game) {
-        this.state = States.RUNNING;
-        this.game = game;           
+        super('RUNNING', game);
     }
 
     enter(): void {
