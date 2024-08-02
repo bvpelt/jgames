@@ -10,12 +10,11 @@ export enum States {
     HIT = 6
 }
 
-export class State {
+export interface State {
     state: States;
     game: Game;
 
-    constructor(state: States, game: Game) {
-        this.state = state;
-        this.game = game;
-    }
+    enter(): void;
+
+    handleInput(input:string): void;
 }

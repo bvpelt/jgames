@@ -1,7 +1,7 @@
 import { Game } from './game';
-import { ARROW_DOWN, ARROW_UP, ARROW_LEFT, ARROW_RIGHT, ENTER } from './input';
+import { ARROW_DOWN, ARROW_UP, ARROW_LEFT, ARROW_RIGHT, ENTER } from './inputhandler';
 import { State, States} from './state';
-import { Sitting } from './Sitting';
+import { Sitting } from './sitting';
 
 export class Player {
     game: Game;
@@ -21,8 +21,8 @@ export class Player {
     speed: number = 0;
     maxSpeed: number = 10; // pixels / frame
     context: any;
-    currentState: Sitting;
-    states[]: [Sitting];
+    currentState: State;
+    states: State[] = [];
     // The order of the states follows the declaration of stats enum from playerStates.js
     
     constructor(game: Game, context: any) {
@@ -30,24 +30,25 @@ export class Player {
         this.y = this.game.height - this.height - this.game.groundMargin;
         this.context = context;
         this.image = document.getElementById('player')!;
-        this.states = [new Sitting(this.game), new Sitting(this.game),new Sitting(this.game),new Sitting(this.game),new Sitting(this.game),new Sitting(this.game),new Sitting(this.game) ]; //, new Running(this.game), new Jumping(this.game),
+        this.states = [new Sitting(this.game), new Sitting(this.game),new Sitting(this.game),new Sitting(this.game),new Sitting(this.game),new Sitting(this.game),new Sitting(this.game) ]; 
+        //, new Running(this.game), new Jumping(this.game),
     //new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game)];
         this.currentState = this.states[0];
         console.log(this.image);
     }
 
-    draw() {
+    draw(): void {
         if (this.game.debug) {
             this.context.strokeRect(this.x, this.y, this.width, this.height);
         }
         this.context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 
-    update(deltaTime: number) {
+    update(input: string[], deltaTime: number): void {
         this.x += 1;
     }
 
-    setState(state:States, speed: number) {
+    setState(state:States, speed: number): void {
         this.currentState = this.states[state];
         this.game.speed = this.game.maxSpeed * speed;
         this.currentState.enter();

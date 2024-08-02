@@ -1,4 +1,7 @@
+import { Background } from './background';
+import { Particle } from './particle';
 import { Player } from './player';
+import { InputHandler } from './inputhandler';
 
 export class Game {
     width: number = 0;
@@ -6,12 +9,13 @@ export class Game {
     groundMargin: number = 40;
     speed: number = 0; // pixels per frame
     maxSpeed: number = 4;
-    //            this.background = new Background(this);
+    background: Background;
     player: Player;
+    input: InputHandler;
     //            this.input = new InputHandler(this);
     //            this.UI = new UI(this);
     enemies = [];
-    particles = [];
+    particles: Particle[] = [];
     collisions = [];
     floatingMessages = [];
     maxParticles: number = 100;
@@ -32,12 +36,17 @@ export class Game {
     constructor(width: number, height: number, context: HTMLCanvasElement) {
         this.width = width;
         this.height = height;
-        this.context = context;
+        this.context = context;        
+        this.background = new Background(this);
+        this.input = new InputHandler(this);
         this.player = new Player(this, this.context);
     }
 
     update(deltaTime: number) {
         this.player.update(deltaTime);
+        //if (this.time > this.maxTime) this.gameOver = true;
+        this.background.update();
+        this.player.update(this.input.keys, deltaTime);
     }
 
     draw() {

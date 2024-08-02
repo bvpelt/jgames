@@ -1,14 +1,17 @@
 import { Game } from './game';
 import { State, States } from './state';
-import { ARROW_DOWN, ARROW_UP, ARROW_LEFT, ARROW_RIGHT, ENTER } from './input';
+import { ARROW_DOWN, ARROW_UP, ARROW_LEFT, ARROW_RIGHT, ENTER } from './inputhandler';
 
-export class Sitting extends State {
-    
+export class Sitting implements State {
+    state: States;
+    game: Game;
+
     constructor(game: Game) {
-        super(States.SITTING, game);
+        this.state = States.SITTING;
+        this.game = game;        
     }
 
-    enter() {
+    enter(): void {
         this.game.player.frameX = 0;
         this.game.player.maxFrame = 4;
         this.game.player.frameY = 5;
