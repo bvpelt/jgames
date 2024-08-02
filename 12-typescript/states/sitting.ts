@@ -14,7 +14,7 @@ export class Sitting extends State {
         this.game.player.frameY = 5;
     }
 
-    handleInput(input: string) {
+    handleInput(input: string[]) {
         if (input.includes(ARROW_LEFT) || input.includes(ARROW_RIGHT)) {
             this.game.player.setState(States.RUNNING, 1);
         } else if (input.includes(ENTER)) {

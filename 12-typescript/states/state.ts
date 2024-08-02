@@ -18,12 +18,12 @@ export class State {
         this.state = state;
         this.game = game;
     }
-    
+
     enter(): void {
 
     };
 
-    handleInput(input:string): void {
+    handleInput(input: string[]): void {
 
     };
 }

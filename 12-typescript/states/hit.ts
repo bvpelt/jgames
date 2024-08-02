@@ -10,12 +10,12 @@ export class Hit extends State {
     enter(): void {
         this.game.player.frameX = 0;
         this.game.player.maxFrame = 10;
-        this.game.player.frameY = 4;        
+        this.game.player.frameY = 4;
     }
 
-    handleInput(input: string) {    
+    handleInput(input: string[]) {
         if (this.game.player.frameX >= this.game.player.maxFrame && this.game.player.onGround()) {
-            this.game.player.setState(States.RUNNING, 1);           
+            this.game.player.setState(States.RUNNING, 1);
         } else if (this.game.player.frameX >= this.game.player.maxFrame && !this.game.player.onGround()) {
             this.game.player.setState(States.FALLING, 1);
         }

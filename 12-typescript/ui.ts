@@ -13,11 +13,11 @@ export class UI {
         this.livesImage = document.getElementById('lives')!;
     }
 
-    update() {
+    update(): void {
 
     }
 
-    draw(context: any) {
+    draw(context: any): void {
         context.save();
 
         context.shadowOffsetX = 2;

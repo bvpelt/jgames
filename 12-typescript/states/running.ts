@@ -4,7 +4,7 @@ import { ARROW_DOWN, ARROW_UP, ARROW_LEFT, ARROW_RIGHT, ENTER } from '../inputha
 import { Dust } from '../particles/dust';
 
 export class Running extends State {
-   
+
     constructor(game: Game) {
         super('RUNNING', game);
     }
@@ -15,7 +15,7 @@ export class Running extends State {
         this.game.player.frameY = 3;
     }
 
-    handleInput(input:string): void {
+    handleInput(input: string[]): void {
         this.game.particles.unshift(new Dust(this.game, this.game.player.x + this.game.player.width * 0.6, this.game.player.y + this.game.player.height));
         if (input.includes(ARROW_DOWN)) {
             this.game.player.setState(States.SITTING, 0);

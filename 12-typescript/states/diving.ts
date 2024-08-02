@@ -16,7 +16,7 @@ export class Diving extends State {
         this.game.player.vy = 15;
     }
 
-    handleInput(input: string): void {
+    handleInput(input: string[]): void {
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));
 
         if (this.game.player.onGround()) {
