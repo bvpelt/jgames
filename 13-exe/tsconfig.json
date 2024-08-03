@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "target": "ES5", // Specify the target JavaScript version
+      "module": "commonjs", // Specify the module system
+      "outDir": "dist", // Output directory for compiled JavaScript
+      "esModuleInterop": true, // Enable interop between CommonJS and ES modules
+      "skipLibCheck": true, // Skip type checking for external libraries
+      "strict": true // Enable strict type checking
+    },
+    "include": [
+      "./"
+    ]
+  }
+  
