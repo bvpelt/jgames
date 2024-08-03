@@ -1,4 +1,4 @@
-import { Game } from "./game";
+import { Game } from "../game";
 
 export class Layer {
     game: Game;
@@ -9,7 +9,7 @@ export class Layer {
     x: number;
     y: number;
 
-    constructor(game:Game, width:number, height:number, speedModifier:number, image:HTMLElement) {
+    constructor(game: Game, width: number, height: number, speedModifier: number, image: HTMLElement) {
         this.game = game;
         this.width = width;
         this.height = height;
@@ -24,7 +24,7 @@ export class Layer {
         else this.x -= this.game.speed * this.speedModifier;
     }
 
-    draw(context:any): void {
+    draw(context: any): void {
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
         context.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
     }

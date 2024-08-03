@@ -8,7 +8,7 @@ export class Particle {
     speedX: number = 0;
     speedY: number = 0;
     size: number = 0;
-    
+
     constructor(game: Game) {
         this.game = game;
         this.markedForDeletion = false;
@@ -22,6 +22,6 @@ export class Particle {
     }
 
     draw(context: any): void {
-        
+
     };
 }

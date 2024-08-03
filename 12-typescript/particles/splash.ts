@@ -1,7 +1,7 @@
 import { Game } from "../game";
 import { Particle } from "./particle";
 
-export class Splash extends Particle {    
+export class Splash extends Particle {
     gravity: number;
     image: HTMLElement;
 

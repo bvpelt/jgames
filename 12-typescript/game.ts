@@ -1,4 +1,4 @@
-import { Background } from './background';
+import { Background } from './background/background';
 import { Particle } from './particles/particle';
 import { Player } from './player';
 import { InputHandler } from './inputhandler';
@@ -51,7 +51,7 @@ export class Game {
 
     update(deltaTime: number) {
         this.time += deltaTime;
-        //if (this.time > this.maxTime) this.gameOver = true;
+        if (this.time > this.maxTime) this.gameOver = true;
         this.background.update();
         this.player.update(this.input.keys, deltaTime);
 
@@ -88,7 +88,7 @@ export class Game {
 
         // cleanup marked for deletion objects
         this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion);
-        this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);            
+        this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);
         this.particles = this.particles.filter(particle => !particle.markedForDeletion);
         this.floatingMessages = this.floatingMessages.filter(message => !message.markedForDeletion);
     }

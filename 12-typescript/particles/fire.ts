@@ -6,7 +6,7 @@ export class Fire extends Particle {
     angle: number;
     va: number;
 
-    constructor(game:Game, x:number, y:number) {
+    constructor(game: Game, x: number, y: number) {
         super(game);
         this.image = document.getElementById('fire')!;
         this.size = Math.random() * 100 + 100;
@@ -24,7 +24,7 @@ export class Fire extends Particle {
         this.x += Math.sin(this.angle * 5);
     }
 
-    draw(context:any): void {
+    draw(context: any): void {
         context.save();
         context.translate(this.x, this.y);
         context.rotate(this.angle);

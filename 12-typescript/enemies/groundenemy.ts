@@ -3,7 +3,7 @@ import { Enemy } from "./enemy";
 
 export class GroundEnemy extends Enemy {
     constructor(game: Game) {
-        super(game);        
+        super(game);
         this.width = 60;
         this.height = 87;
         this.x = this.game.width;

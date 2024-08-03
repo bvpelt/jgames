@@ -1,4 +1,4 @@
-import { Game } from "./game";
+import { Game } from "../game";
 import { Layer } from "./layer";
 
 export class Background {
