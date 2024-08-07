@@ -104,6 +104,29 @@ $ npm install electron --save-dev
 # $ npm install --platform=linux --arch=x64  electron --save-dev
 
 ## Options
+```
+
+## Using pkg
+```bash
+
+# using pkg
+$ sudo npm install pkg -g
+$ pkg dist/main.js --out my-app --target node22-linux-x64 --node-path "$(nvm which node)"
+```
+
+## Using nexe
+
+See 
+- https://www.npmjs.com/package/nexe
+- https://github.com/nodejs/node/blob/main/BUILDING.md#unix-and-macos
+
+```bash
+# using nexe
+$ sudo npm install nexe -g
+$ neqnexe dist/main.js -p /usr/bin/python3 --build --target node20-linux-x64 -o myapp.exe
+
+```
+
 
 - [Electron](https://www.electronjs.org/docs/latest/)
 - [PKG](https://github.com/vercel/pkg#readme)
