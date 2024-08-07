@@ -87,3 +87,10 @@ module.exports = {
 ```bash
 $ npm install --save-dev ts-loader
 ```
+
+
+## Options
+
+- [Electron](https://www.electronjs.org/docs/latest/)
+- [PKG](https://github.com/vercel/pkg#readme)
+- [Node](https://nodejs.org/api/single-executable-applications.html)

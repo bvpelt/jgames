@@ -6,19 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' http://localhost:8080; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
-
-    <!--
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' http://localhost:8080; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
-    -->
-
-    <!--
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' http://localhost:8080; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
-
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
-    -->
-
     <title>Java Game</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,10 +34,17 @@
     <button id="fullScreenButton">Toggle fullscreen</button>
 
     <h1 id="loading">LOADING....</h1>
+    <div id="helpScherm">
+        Gebruik de pijltjes op het toetsenbord om het hondje naar links, rechts, boven of beneden te bewegen.
 
-    <!--
-    <script src="./renderer.js"></script>
-    -->
+        <ul>
+            <li>Als je een vijand raakt verzamel je punten, je ziet de vijand verdwijnen.</li>
+            <li>Puntenaantal wordt op het scherm getoond</li>
+        </ul>
+
+        <button id="closeHelpScherm">Close</button>
+    </div>
+   
     <script type="module" src="main.js"></script>
 </body>
 

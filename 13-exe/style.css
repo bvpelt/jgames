@@ -15,7 +15,6 @@
     font-family: 'Creepster', cursive;
 }
 
-
 #loading {
     position: absolute;
     top: 50%;
@@ -41,4 +40,17 @@
     top: 37.5%;
     left: 50%;
     transform: translateX(-50%);
+}
+
+#helpScherm {
+    border: 5px solid rgb(170, 15, 15);
+    background-color: white;
+    position: absolute;    
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px;
+    height: 500px;
+    max-width: 100%;
+    max-height: 100%;
 }
