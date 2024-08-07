@@ -88,6 +88,12 @@ module.exports = {
 $ npm install --save-dev ts-loader
 ```
 
+## Using pkg
+
+```bash
+$ npm install -g pkg
+```
+
 
 ## Options
 

@@ -1,6 +1,8 @@
 # Setup webpack
 
-See https://webpack.js.org/guides/getting-started/
+See 
+- https://webpack.js.org/guides/getting-started/
+- https://webpack.js.org/concepts/
 
 ## Initialize npm package
 

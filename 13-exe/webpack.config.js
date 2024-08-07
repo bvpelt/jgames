@@ -32,11 +32,7 @@ module.exports = {
       template: './index.html' // Path to   your HTML file
     }),
     new CopyPlugin({
-      patterns: [
-        {
-          from: 'preload.ts',
-          to: '.'
-        },
+      patterns: [       
         {
           from: 'src/images',
           to: 'images'
