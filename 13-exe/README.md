@@ -86,6 +86,7 @@ module.exports = {
 
 ```bash
 $ npm install --save-dev ts-loader
+$ npm install --save-dev @types/body-parser @types/eslint @types/express-serve-static-core @types/http-errors @types/node @types/qs @types/range-parser @types/send
 ```
 
 ## Using pkg
@@ -93,6 +94,10 @@ $ npm install --save-dev ts-loader
 ```bash
 $ npm install -g pkg
 ```
+
+Only specific versions will work see 
+- https://github.com/vercel/pkg/issues/2014
+- https://github.com/yao-pkg/pkg-fetch
 
 
 ## Options

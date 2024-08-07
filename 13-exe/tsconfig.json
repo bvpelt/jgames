@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
       "target": "ES5", // Specify the target JavaScript version
+      //"typeRoots" : ["./node_modules/@types"],
       "module": "commonjs", // Specify the module system
       "outDir": "dist", // Output directory for compiled JavaScript
       "esModuleInterop": true, // Enable interop between CommonJS and ES modules

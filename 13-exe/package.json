@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/main.js",
+  "bin": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
@@ -13,14 +14,28 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/eslint": "^9.6.0",
+    "@types/express-serve-static-core": "^4.19.5",
+    "@types/http-errors": "^2.0.4",
+    "@types/node": "^22.1.0",
+    "@types/qs": "^6.9.15",
+    "@types/range-parser": "^1.2.7",
+    "@types/send": "^0.17.4",
     "copy-webpack-plugin": "^12.0.2",
-    
     "html-webpack-plugin": "^5.6.0",
     "path-loader": "^1.0.12",
+    "superagent": "^10.0.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.5.4",
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
+  },
+  "pkg": {
+    "scripts": "dist/main.js",
+    "assets": "dist/index.html, dist/style.css, dist/images/*.png",
+    "targets": [ "node20-win-x64"],
+    "outputPath": "dist"
   }
 }
