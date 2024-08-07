@@ -6,7 +6,7 @@ module.exports = {
   mode: 'development',
   entry: './src/main.ts',
   output: {
-    filename: 'main.js',
+    filename: 'jgame.js',
     path: path.resolve(__dirname, 'dist'),
   },
   
@@ -34,7 +34,11 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'preload.ts',
+          from: 'preload.js',
+          to: '.'
+        },
+        {
+          from: 'main.js',
           to: '.'
         },
         {

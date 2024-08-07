@@ -88,6 +88,20 @@ module.exports = {
 $ npm install --save-dev ts-loader
 ```
 
+## Using electron
+
+Requirement node v20.15.1
+npm 10.7.0
+
+
+```bash
+$ npm install electron --save-dev
+
+#
+# Alternative specifiy 
+# platform: linux | win32
+# arch: ia32 | x64
+# $ npm install --platform=linux --arch=x64  electron --save-dev
 
 ## Options
 

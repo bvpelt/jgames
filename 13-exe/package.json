@@ -2,17 +2,19 @@
   "name": "13-exe",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "dist/jgame.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack serve"    
+    "start": "webpack serve",
+    "electron": "electron ./dist/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "copy-webpack-plugin": "^12.0.2",
+    "electron": "^31.3.1",
     "html-webpack-plugin": "^5.6.0",
     "path-loader": "^1.0.12",
     "ts-loader": "^9.5.1",
